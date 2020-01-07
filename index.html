@@ -1,0 +1,164 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="sakura_dark.css" type="text/css">
+        <style>
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+            }
+            body{
+                text-align: center;
+            }
+
+            .visuallyhidden {
+            opacity: 0;
+            }
+        </style>
+    </head>
+        <body>
+            <h1>Password Generator</h1>
+            <label>Minimum Length</label>
+            <input type="number" id="length">
+            <label>Minimum Upper Characters</label>
+            <input type="number" id="minchars">
+            <label>Minimum Lower Characters</label>
+            <input type="number" id="minlchars">
+            <label>Minimum Numbers</label>
+            <input type="number" id="minnums">
+            <label>Minimum Special Characters</label>
+            <input type="number" id="minspelchars">
+            <br>
+            <input type="button" id="result" value="result">
+            <br><br>
+            <input type="text" id="copy_text">
+            <br><br>
+            <input type="button" id="copy" value="copy" style="display: none;">
+            <br><br>
+            <h5 style="display: none" id="copy_announchment">Password has been Copied !</h5>
+        </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<script>
+var length = document.getElementById("length");
+var minchars = document.getElementById("minchars");
+var minlchars = document.getElementById("minlchars");
+var minnums = document.getElementById("minnums");
+var minspelchars = document.getElementById("minspelchars");
+
+length.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.getElementById("result").click();
+  }
+});
+
+minchars.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.getElementById("result").click();
+  }
+});
+
+minlchars.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.getElementById("result").click();
+  }
+});
+
+minnums.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.getElementById("result").click();
+  }
+});
+
+minspelchars.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.getElementById("result").click();
+  }
+});
+
+
+function randomPassword(len, minUpper, minLower, minNumber, minSpecial) {
+    let chars = String.fromCharCode(...Array(127).keys()).slice(33),//chars
+        A2Z = String.fromCharCode(...Array(91).keys()).slice(65),//A-Z
+        a2z = String.fromCharCode(...Array(123).keys()).slice(97),//a-z
+        zero2nine = String.fromCharCode(...Array(58).keys()).slice(48),//0-9
+        specials = chars.replace(/\w/g, '')
+    if (minSpecial < 0) chars = zero2nine + A2Z + a2z
+    if (minNumber < 0) chars = chars.replace(zero2nine, '')
+    let minRequired = minSpecial + minUpper + minLower + minNumber
+    let rs = [].concat(
+        Array.from({length: minSpecial ? minSpecial : 0}, () => specials[Math.floor(Math.random() * specials.length)]),
+        Array.from({length: minUpper ? minUpper : 0}, () => A2Z[Math.floor(Math.random() * A2Z.length)]),
+        Array.from({length: minLower ? minLower : 0}, () => a2z[Math.floor(Math.random() * a2z.length)]),
+        Array.from({length: minNumber ? minNumber : 0}, () => zero2nine[Math.floor(Math.random() * zero2nine.length)]),
+        Array.from({length: Math.max(len, minRequired) - (minRequired ? minRequired : 0)}, () => chars[Math.floor(Math.random() * chars.length)]),
+    )
+    return rs.sort(() => Math.random() > Math.random()).join('');
+}
+
+document.getElementById("result").addEventListener("click", function(){
+  let len = parseInt(document.getElementById("length").value);
+  var minchars = parseInt(document.getElementById("minchars").value);
+  var minlchars = parseInt(document.getElementById("minlchars").value);
+  var minnums = parseInt(document.getElementById("minnums").value);
+  var minspelchars = parseInt((document.getElementById("minspelchars").value));
+
+  if(isNaN(minchars) || minchars<1){
+    minchars = -1;
+  }
+  if(isNaN(minlchars) || minlchars<1){
+    minlchars = -1;
+  }
+  if(isNaN(minnums) || minnums<1){
+    minnums = -1;
+  }
+  if(isNaN(minspelchars) || minspelchars<1){
+    minspelchars = -1;
+  }
+
+  if(isNaN(len) || len<1){
+      alert('Incorrect input on length field');
+  }
+  else{
+    document.getElementById("copy").style.display  = 'inline-block';
+    document.getElementById("copy_text").value =randomPassword(len, minchars, minlchars, minnums, minspelchars);
+  }
+});
+
+document.getElementById("copy").addEventListener("click", function(){
+  var copyText = document.getElementById("copy_text");
+  copyText.select();
+  document.execCommand("copy");
+  
+  document.getElementById("copy_announchment").style.display  = 'inline-block';
+  fade(document.getElementById("copy_announchment"));
+});
+
+
+function fade(element) {
+    var op = 1;  // initial opacity
+    var timer = setInterval(function () {
+        if (op <= 0.1){
+            clearInterval(timer);
+            element.style.display = 'none';
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op -= op * 0.1;
+    }, 50);
+}
+</script>
