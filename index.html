@@ -49,11 +49,11 @@
 
 
 <script>
-var length = document.getElementById("length");
-var minchars = document.getElementById("minchars");
-var minlchars = document.getElementById("minlchars");
-var minnums = document.getElementById("minnums");
-var minspelchars = document.getElementById("minspelchars");
+let length = document.getElementById("length");
+let minchars = document.getElementById("minchars");
+let minlchars = document.getElementById("minlchars");
+let minnums = document.getElementById("minnums");
+let minspelchars = document.getElementById("minspelchars");
 
 length.addEventListener("keyup", function(event) {
   if (event.keyCode === 13) {
@@ -112,10 +112,10 @@ function randomPassword(len, minUpper, minLower, minNumber, minSpecial) {
 
 document.getElementById("result").addEventListener("click", function(){
   let len = parseInt(document.getElementById("length").value);
-  var minchars = parseInt(document.getElementById("minchars").value);
-  var minlchars = parseInt(document.getElementById("minlchars").value);
-  var minnums = parseInt(document.getElementById("minnums").value);
-  var minspelchars = parseInt((document.getElementById("minspelchars").value));
+  let minchars = parseInt(document.getElementById("minchars").value);
+  let minlchars = parseInt(document.getElementById("minlchars").value);
+  let minnums = parseInt(document.getElementById("minnums").value);
+  let minspelchars = parseInt((document.getElementById("minspelchars").value));
 
   if(isNaN(minchars) || minchars<1){
     minchars = -1;
@@ -140,7 +140,7 @@ document.getElementById("result").addEventListener("click", function(){
 });
 
 document.getElementById("copy").addEventListener("click", function(){
-  var copyText = document.getElementById("copy_text");
+  let copyText = document.getElementById("copy_text");
   copyText.select();
   document.execCommand("copy");
   
@@ -150,8 +150,8 @@ document.getElementById("copy").addEventListener("click", function(){
 
 
 function fade(element) {
-    var op = 1;  // initial opacity
-    var timer = setInterval(function () {
+    let op = 1;  // initial opacity
+    let timer = setInterval(function () {
         if (op <= 0.1){
             clearInterval(timer);
             element.style.display = 'none';
